@@ -43,8 +43,8 @@ Run this image alongside your Vaultwarden container for automated nightly (1AM U
 ### Decrypting Backup
 `openssl enc -d -aes256 -salt -pbkdf2 -in mybackup.tar.gz | tar xz --strip-components=1 -C my-folder`
 
-### Restoring Backup to BitWarden_RS
-Volume mount the decrypted `./bwdata` folder to your bitwarden_rs container. Done!
+### Restoring Backup to Vaultwarden
+Volume mount the decrypted `./bwdata` folder to your Vaultwarden container. Done!
 
 ## Other notes
 - Volume mount the `../vw-data` folder your Vaultwarden container uses.
