@@ -5,7 +5,7 @@ services:
     restart: always
     volumes:
       - ../vw-data/db.sqlite3:/db.sqlite3
-      - ./dropbox_uploader.conf:/root/.dropbox_uploader:ro
+      - ./dropbox_uploader.conf:/root/.dropbox_uploader
     environment:
       - BACKUP_ENCRYPTION_KEY=xxx
       #- DELETE_AFTER=10
