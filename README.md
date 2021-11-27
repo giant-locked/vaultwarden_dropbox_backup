@@ -9,7 +9,7 @@ Run this image alongside your Vaultwarden container for automated nightly (1AM U
 
 ### Clone this repo
 1. Clone the repo into the Vaultwarden work directory: `git clone git@github.com:giant-locked/vaultwarden_dropbox_backup.git`
-2. Cd into repo directory: `cd vaultwarden_dropbox_backup`
+2. Cd into repo directory: ```cd vaultwarden_dropbox_backup```
 
 ### Create Dropbox app
 1. Open the following URL in your Browser, and log in using your account: https://www.dropbox.com/developers/apps
@@ -22,12 +22,14 @@ Run this image alongside your Vaultwarden container for automated nightly (1AM U
 8. Once your app is created, you can find your "App key" and "App secret" in the "Settings" tab.
 
 ### Build Docker image and run docker-compose
+
+> Steps 2, 3 are only needed for the first run to populate the config file with secrets. If you re-create the container with the same config file mount, the container does not need to be run in interactive mode
+
+> If you are using a GUI like Portainer to create the container, you will need to attach to the container. The first input to provide once attached is the App key).
 1. From the directory with Dockerfile execute: `docker build -t vw-bcp .`
 2. Run the container in interactive mode (`docker run -it vw-bcp`) to create the configuration and follow the steps in the terminal. 
 3. Press `Ctrl+P` followed by `Ctrl+Q` to exit interactive mode / detach and keep the container running.
 4. From the directory with docker-compose.yml execute: `docker-compose up -d`
-#### Note 1: Steps 2, 3 are only needed for the first run to populate the config file with secrets. If you re-create the container with the same config file mount, the container will not need to be run in interactive mode
-#### Note 2: If you are using a GUI like Portainer to create the container, you will need to attach to the container. The first input to provide once attached is the App key).
 
 ### Check everything is up and running
 1. Execute `docker ps -a` to check docker containers
@@ -35,16 +37,17 @@ Run this image alongside your Vaultwarden container for automated nightly (1AM U
 
 ## Encryption
 
-- Backups are encrypted (OpenSSL AES256) and zipped (`.tar.gz`) with a passphrase of your choice.
-- Encrypting Vaultwarden backups is not required since the data is already encrypted with user master passwords. We've added this for good practice and added obfuscation should your Dropbox account get compromised.
-- Pick a secure `BACKUP_ENCRYPTION_KEY`. This is for added protection and will be needed when decrypting your backups.
+> Backups are encrypted (OpenSSL AES256) and zipped (`.tar.gz`) with a passphrase of your choice.
 
+> Encrypting Vaultwarden backups is not required since the data is already encrypted with user master passwords. We've added this for good practice and added obfuscation should your Dropbox account get compromised.
+
+> Pick a secure `BACKUP_ENCRYPTION_KEY`. This is for added protection and will be needed when decrypting your backups.
 
 ### Decrypting Backup
 `openssl enc -d -aes256 -salt -pbkdf2 -in mybackup.tar.gz | tar xz --strip-components=1 -C my-folder`
 
 ### Restoring Backup to Vaultwarden
-Volume mount the decrypted `./bwdata` folder to your Vaultwarden container. Done!
+Volume mount the decrypted `../vw-data` folder to your Vaultwarden container. Done!
 
 ## Other notes
 - Volume mount the `../vw-data` folder your Vaultwarden container uses.
