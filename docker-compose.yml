@@ -1,11 +1,11 @@
 version: '3.2'
 services:
-  bitwarden_dropbox_backup:
-    image: shivpatel/bitwarden_rs_dropbox_backup:latest
+  vw-bcp:
+    image: vaultwarden_dropbox_backup:latest
     restart: always
     volumes:
-      - ./bwdata:/data 
-      - ./config:/config
+      - ../vw-data/db.sqlite3:/db.sqlite3
+      - ./dropbox_uploader.conf:/root/.dropbox_uploader:ro
     environment:
       - BACKUP_ENCRYPTION_KEY=xxx
       #- DELETE_AFTER=10

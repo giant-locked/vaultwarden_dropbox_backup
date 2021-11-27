@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # setup dropbox uploader config file
-/dropbox_uploader.sh -f /config/.dropbox_uploader info
+/dropbox_uploader.sh info
 
 # run backup once on container start to ensure it works
 /backup.sh
